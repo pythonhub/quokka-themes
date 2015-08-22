@@ -80,9 +80,9 @@ def global_theme_template(ctx, templatename, fallback=True):
 
 
 @contextfunction
-def global_theme_static(ctx, filename, external=False):
+def global_theme_static(ctx, filename, external=False, *args, **kwargs):
     theme = active_theme(ctx)
-    return static_file_url(theme, filename, external)
+    return static_file_url(theme, filename, external, *args, **kwargs)
 
 
 @contextfunction
@@ -99,7 +99,7 @@ def global_theme_get_info(ctx, attribute_name, fallback=''):
     return theme.options.get(attribute_name, fallback)
 
 
-def static_file_url(theme, filename, external=False):
+def static_file_url(theme, filename, external=False, *args, **kwargs):
     """
     This is a shortcut for getting the URL of a static file in a theme.
 
@@ -111,7 +111,7 @@ def static_file_url(theme, filename, external=False):
     if isinstance(theme, Theme):
         theme = theme.identifier
     return url_for('_themes.static', themeid=theme, filename=filename,
-                   _external=external)
+                   _external=external, *args, **kwargs)
 
 
 def render_theme_template(theme, template_name, _fallback=True, **context):
